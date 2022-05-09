@@ -3,26 +3,32 @@ class MaterialTest extends KFMutator
 
 var Material DummyMat;
 
+function PreBeginPlay()
+{
+    SetPC();
+    super.PreBeginPlay();
+}
+
 function InitMutator(string Options, out string ErrorMessage)
 {
     `log("[MaterialTest]: InitMutator(), DummyMat = " $ DummyMat);
     super.InitMutator(Options,ErrorMessage);
 }
 
-function Mutate(string MutateString, PlayerController Sender)
+function NotifyLogin(Controller NewPlayer)
 {
-    local vector Loc;
-    local DummyTestActor TestActor;
+    ClientSetPC();
+    super.NotifyLogin(NewPlayer);
+}
 
-    if (MutateString ~= "test")
-    {
-        Loc = Sender.Location + (Normal(vector(Sender.Rotation)) * 500);
-        `log("[MaterialTest]: spawning test actor at " $ Loc);
-        Sender.ClientMessage("[MaterialTest]: spawning test actor at " $ Loc);
-        TestActor = Spawn(class'DummyTestActor', Self,, Loc, Sender.Rotation);
-    }
+function SetPC()
+{
+    WorldInfo.Game.PlayerControllerClass=class'MTPlayerController';
+}
 
-    super.Mutate(MutateString, Sender);
+reliable client function ClientSetPC()
+{
+    SetPC();
 }
 
 DefaultProperties
