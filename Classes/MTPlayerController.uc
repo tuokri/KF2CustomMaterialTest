@@ -1,6 +1,8 @@
 class MTPlayerController extends KFPlayerController;
 
-simulated exec function Test()
+var Array<Actor> TestActors;
+
+simulated exec function TestMats()
 {
     if (WorldInfo.NetMode == NM_DedicatedServer)
     {
@@ -15,12 +17,11 @@ simulated exec function Test()
 simulated function DoStuff()
 {
     local vector Loc;
-    local DummyTestActor TestActor;
 
-    Loc = Location + (Normal(vector(Sender.Rotation)) * 500);
+    Loc = Pawn.Location + (Normal(vector(Pawn.Rotation)) * 100);
     `log("[MaterialTest]: spawning test actor at " $ Loc);
     ClientMessage("[MaterialTest]: spawning test actor at " $ Loc);
-    TestActor = Spawn(class'DummyTestActor', Self,, Loc, Rotation);
+    TestActors.AddItem(Spawn(class'DummyTestActor', Self,, Loc, Pawn.Rotation));
 }
 
 reliable server function ServerDoStuff()

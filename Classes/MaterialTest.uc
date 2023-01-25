@@ -2,11 +2,12 @@ class MaterialTest extends KFMutator
     config(Mutator_MaterialTest);
 
 var Material DummyMat;
+var Object DummyObject;
 
 function PreBeginPlay()
 {
-    SetPC();
     super.PreBeginPlay();
+    SetPC();
 }
 
 function InitMutator(string Options, out string ErrorMessage)
@@ -34,4 +35,5 @@ reliable client function ClientSetPC()
 DefaultProperties
 {
     DummyMat=Material'MaterialTestPackage.TestMat'
+    DummyObject=Material'MaterialTestPackage.TestMat'
 }
